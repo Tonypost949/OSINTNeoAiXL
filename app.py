@@ -4,7 +4,6 @@ from google.cloud import bigquery
 
 st.set_page_config(page_title="OSINTNeoAiXL - Hyper Extraction", page_icon="🕵️‍♂️", layout="wide")
 st.title("🕵️‍♂️ OSINTNeoAiXL: Database Extraction Terminal")
-st.markdown("✅ **SYSTEM OVERRIDE SUCCESSFUL**: Cloud IAM Bypassed. Secure Database connection established.")
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
