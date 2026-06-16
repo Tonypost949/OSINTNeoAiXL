@@ -28,9 +28,14 @@ if prompt := st.chat_input("Enter target or query (e.g., 'Newark', 'Andrew Do', 
             query = f"""
                 SELECT state_code, non_profiteers_index 
                 FROM `{gcp_project_id}.national_audits.all_state_records`
-                WHERE LOWER(TO_JSON_STRING(non_profiteers_index)) LIKE '%{prompt.lower()}%'
+                WHERE LOWER(TO_JSON_STRING(non_profiteers_index)) LIKE @search_term
             """
-            results = client.query(query).result()
+            job_config = bigquery.QueryJobConfig(
+                query_parameters=[
+                    bigquery.ScalarQueryParameter("search_term", "STRING", f"%{prompt.lower()}%")
+                ]
+            )
+            results = client.query(query, job_config=job_config).result()
             
             found = False
             for row in results:
